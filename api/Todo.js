@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://express-tutorial-api.herokuapp.com';
-// const BASE_URL = 'http://localhost:3001';
+const BASE_URL = process.env.VUE_APP_API_ROOT_URL;
 const TODO_PATH = '/api/todo'
 
 /*
