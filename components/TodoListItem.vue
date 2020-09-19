@@ -32,7 +32,10 @@
       </button>
     </td>
     <td class="col-2">
-      <button class="btn btn-sm btn-outline-danger" @click.prevent="onRemove">X</button>
+      <button
+          class="btn btn-sm btn-outline-danger"
+          @click.prevent="editable ? onCancel() : onRemove()"
+      >{{ editable ? 'Cancel' : 'X' }}</button>
     </td>
   </tr>
 </template>
@@ -46,6 +49,7 @@ export default {
   data() {
     return {
       editable: false,
+      itemEdited: null,
     }
   },
   computed: {
@@ -68,7 +72,7 @@ export default {
       }
     },
     onInput(e) {
-      this.todo.item = e.target.value;
+      this.itemEdited = e.target.value;
     },
     async onModify() {
       // if editable is true, call api to save
@@ -76,13 +80,19 @@ export default {
         try {
           await TodoApi.edit({
             _id: this.todoId,
-            item: this.todo.item,
+            item: this.itemEdited,
           });
+          this.todo.item = this.itemEdited;
         } catch (e) {
           console.log(e, 'onModify in todolistitem');
         }
       }
 
+      this.editable = !this.editable;
+    },
+    onCancel() {
+      // might be better to set it to false instead of toggle
+      // but if it's calling this method then this.editable should be true and the toggle will set it to false
       this.editable = !this.editable;
     },
     onRemove() {
