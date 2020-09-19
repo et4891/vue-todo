@@ -1,6 +1,6 @@
 <template>
   <tr>
-    <td>
+    <td class="col-8">
       <div class="custom-control custom-checkbox">
         <input
           type="checkbox"
@@ -18,8 +18,11 @@
         </label>
       </div>
     </td>
-    <td>
-      <button class="btn btn-sm btn-outline-danger float-right" @click.prevent="onRemove">X</button>
+    <td class="col-2">
+      <button class="btn btn-sm btn-outline-info">edit</button>
+    </td>
+    <td class="col-2">
+      <button class="btn btn-sm btn-outline-danger" @click.prevent="onRemove">X</button>
     </td>
   </tr>
 </template>
