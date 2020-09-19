@@ -30,8 +30,9 @@ export default {
       if(this.todoText) {
         this.$emit('onAddEmit', this.todoText);
         this.reset();
-        this.$refs.todoInput.focus()
       }
+      // focus whenever button clicked
+      this.$refs.todoInput.focus();
     }
   }
 }
