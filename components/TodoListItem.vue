@@ -1,7 +1,8 @@
 <template>
   <tr>
-    <td>
-      <div class="custom-control custom-checkbox">
+    <td class="col-8">
+      <!-- if editable is true, show the checkbox and todo item -->
+      <div class="custom-control custom-checkbox" v-if="!editable">
         <input
           type="checkbox"
           class="custom-control-input"
@@ -17,9 +18,21 @@
           {{ todo.item }}
         </label>
       </div>
+
+      <!-- if editable is false, turn item into an input so user can enter new value -->
+      <div v-else>
+        <input type="text" class="form-control" :value="todo.item" @input="onInput">
+      </div>
     </td>
-    <td>
-      <button class="btn btn-sm btn-outline-danger float-right" @click.prevent="onRemove">X</button>
+    <td class="col-2">
+      <button
+        class="btn btn-sm"
+        :class="editable ? 'btn-outline-success' : 'btn-outline-info'"
+        @click.prevent="onModify">{{ editable ? 'save' : 'edit' }}
+      </button>
+    </td>
+    <td class="col-2">
+      <button class="btn btn-sm btn-outline-danger" @click.prevent="onRemove">X</button>
     </td>
   </tr>
 </template>
@@ -30,6 +43,11 @@ import TodoApi from '../api/Todo';
 export default {
   name: 'TodoListItem',
   props: ['todo'],
+  data() {
+    return {
+      editable: false,
+    }
+  },
   computed: {
     todoId() {
       return this.todo.id || this.todo._id;
@@ -48,6 +66,24 @@ export default {
       } catch (e) {
         console.log(e, 'todolistitem oncheck');
       }
+    },
+    onInput(e) {
+      this.todo.item = e.target.value;
+    },
+    async onModify() {
+      // if editable is true, call api to save
+      if (this.editable) {
+        try {
+          await TodoApi.edit({
+            _id: this.todoId,
+            item: this.todo.item,
+          });
+        } catch (e) {
+          console.log(e, 'onModify in todolistitem');
+        }
+      }
+
+      this.editable = !this.editable;
     },
     onRemove() {
       this.$emit('onRemoveEmit', this.todoId);
