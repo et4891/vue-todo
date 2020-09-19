@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// const BASE_URL = 'https://express-tutorial-api.herokuapp.com';
-const BASE_URL = 'http://localhost:3001';
+const BASE_URL = 'https://express-tutorial-api.herokuapp.com';
+// const BASE_URL = 'http://localhost:3001';
 const TODO_PATH = '/api/todo'
 
 /*
