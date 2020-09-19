@@ -1,7 +1,7 @@
 <template>
   <tr>
     <td class="col-8">
-      <!-- if editable is true, show the checkbox and todo item -->
+      <!-- if editable is false, show the checkbox and todo item -->
       <div class="custom-control custom-checkbox" v-if="!editable">
         <input
           type="checkbox"
@@ -19,7 +19,7 @@
         </label>
       </div>
 
-      <!-- if editable is false, turn item into an input so user can enter new value -->
+      <!-- if editable is true, turn item into an input so user can enter new value -->
       <div v-else>
         <input type="text" class="form-control" :value="todo.item" @input="onInput">
       </div>
@@ -75,8 +75,8 @@ export default {
       this.itemEdited = e.target.value;
     },
     async onModify() {
-      // if editable is true, call api to save
-      if (this.editable) {
+      // if editable is true, and item call api to save
+      if (this.editable && this.itemEdited) {
         try {
           await TodoApi.edit({
             _id: this.todoId,
