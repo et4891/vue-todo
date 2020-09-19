@@ -1,4 +1,8 @@
 # todo
+created todo using vue by myself as practice and deployed to heroku
+
+## source
+[Deploying Vue apps to heroku - the right way](https://www.binarcode.com/blog/deploying-vue-apps-to-heroku-the-right-way/)
 
 ## Project setup
 ```
