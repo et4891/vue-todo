@@ -91,6 +91,8 @@ export default {
       this.editable = !this.editable;
     },
     onCancel() {
+      // might be better to set it to false instead of toggle
+      // but if it's calling this method then this.editable should be true and the toggle will set it to false
       this.editable = !this.editable;
     },
     onRemove() {
