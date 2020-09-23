@@ -21,14 +21,14 @@
 
       <!-- if editable is true, turn item into an input so user can enter new value -->
       <div v-else>
-        <input type="text" class="form-control" :value="todo.item" @input="onInput">
+        <input ref="editItem" type="text" class="form-control" :value="todo.item" @input="onInput">
       </div>
     </td>
     <td class="col-2">
       <button
         class="btn btn-sm"
         :class="editable ? 'btn-outline-success' : 'btn-outline-info'"
-        @click.prevent="onModify">{{ editable ? 'save' : 'edit' }}
+        @click.prevent="editable ? onSave() : onEdit()">{{ editable ? 'save' : 'edit' }}
       </button>
     </td>
     <td class="col-2">
@@ -74,7 +74,17 @@ export default {
     onInput(e) {
       this.itemEdited = e.target.value;
     },
-    async onModify() {
+    onEdit() {
+      if (!this.editable) {
+        this.editable = true;
+        // using $nextTick() because it allows you to do something after you have changed the data and VueJS has updated the DOM based on your data change,
+        // but before the browser has rendered those changed on the page.
+        // if familiar with jQuery, it's same reason why the need to use $('elements').on('click'),  instead of just using $('element').click()
+        // in this example, without using $nextTick() browser will see this.editable as false instead of true
+        this.$nextTick(() => this.$refs.editItem.focus());
+      }
+    },
+    async onSave() {
       // if editable is true, and item call api to save
       if (this.editable && this.itemEdited) {
         try {
@@ -83,12 +93,11 @@ export default {
             item: this.itemEdited,
           });
           this.todo.item = this.itemEdited;
+          this.editable = false;
         } catch (e) {
           console.log(e, 'onModify in todolistitem');
         }
       }
-
-      this.editable = !this.editable;
     },
     onCancel() {
       // might be better to set it to false instead of toggle
