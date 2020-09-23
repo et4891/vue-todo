@@ -4,7 +4,7 @@
       <tbody v-if="todos.length > 0">
         <TodoListItem
           v-for="todo in todos"
-          :key="todo.id"
+          :key="todo._id"
           :todo="todo"
           @onRemoveEmit="onRemove"
         />
