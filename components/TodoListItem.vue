@@ -86,13 +86,14 @@ export default {
     },
     async onSave() {
       // if editable is true, and item call api to save
-      if (this.editable && this.itemEdited) {
+      const item = this.itemEdited || this.todo.item;
+      if (this.editable && item) {
         try {
           await TodoApi.edit({
             _id: this.todoId,
-            item: this.itemEdited,
+            item,
           });
-          this.todo.item = this.itemEdited;
+          this.todo.item = item;
           this.editable = false;
         } catch (e) {
           console.log(e, 'onModify in todolistitem');
