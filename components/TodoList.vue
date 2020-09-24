@@ -6,8 +6,7 @@
           v-for="(todo, index) in todos"
           :key="index"
           :todo="todo"
-          :index="index"
-          :editable="editableChange(index)"
+          :editable="editableChange(todo._id)"
           @onRemoveEmit="onRemove"
           @onCancelEmit="onCancel"
           @onEditEmit="onEdit"
@@ -31,18 +30,18 @@ export default {
   },
   data() {
     return {
-      selectedIndex: null,
+      selectedItem: null,
     }
   },
   methods: {
-    editableChange(index) {
-      return this.selectedIndex === index;
+    editableChange(id) {
+      return this.selectedItem === id;
     },
-    onEdit(index) {
-      this.selectedIndex = index;
+    onEdit(id) {
+      this.selectedItem = id;
     },
     onCancel() {
-      this.selectedIndex = null;
+      this.selectedItem = null;
     },
     onRemove(id) {
       this.$emit('onRemoveEmit', id);

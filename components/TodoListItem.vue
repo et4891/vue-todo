@@ -45,7 +45,7 @@ import TodoApi from '../api/Todo';
 
 export default {
   name: 'TodoListItem',
-  props: ['todo', 'index', 'editable'],
+  props: ['todo', 'editable'],
   data() {
     return {
       itemEdited: null,
@@ -75,7 +75,7 @@ export default {
     },
     onEdit() {
       if (!this.editable) {
-        this.$emit('onEditEmit', this.index);
+        this.$emit('onEditEmit', this.todo._id);
         // using $nextTick() because it allows you to do something after you have changed the data and VueJS has updated the DOM based on your data change,
         // but before the browser has rendered those changed on the page.
         // if familiar with jQuery, it's same reason why the need to use $('elements').on('click'),  instead of just using $('element').click()
