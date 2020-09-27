@@ -45,10 +45,9 @@ import TodoApi from '../api/Todo';
 
 export default {
   name: 'TodoListItem',
-  props: ['todo'],
+  props: ['todo', 'editable'],
   data() {
     return {
-      editable: false,
       itemEdited: null,
     }
   },
@@ -76,7 +75,7 @@ export default {
     },
     onEdit() {
       if (!this.editable) {
-        this.editable = true;
+        this.$emit('onEditEmit', this.todo._id);
         // using $nextTick() because it allows you to do something after you have changed the data and VueJS has updated the DOM based on your data change,
         // but before the browser has rendered those changed on the page.
         // if familiar with jQuery, it's same reason why the need to use $('elements').on('click'),  instead of just using $('element').click()
@@ -94,16 +93,14 @@ export default {
             item,
           });
           this.todo.item = item;
-          this.editable = false;
+          this.onCancel();  // calling this here because this actually set the selectIndex back to null, which is what is needed
         } catch (e) {
           console.log(e, 'onModify in todolistitem');
         }
       }
     },
     onCancel() {
-      // might be better to set it to false instead of toggle
-      // but if it's calling this method then this.editable should be true and the toggle will set it to false
-      this.editable = !this.editable;
+      this.$emit('onCancelEmit');
     },
     onRemove() {
       this.$emit('onRemoveEmit', this.todoId);

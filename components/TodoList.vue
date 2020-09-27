@@ -3,10 +3,13 @@
     <table class="table">
       <tbody v-if="todos.length > 0">
         <TodoListItem
-          v-for="todo in todos"
-          :key="todo._id"
+          v-for="(todo, index) in todos"
+          :key="index"
           :todo="todo"
+          :editable="editableChange(todo._id)"
           @onRemoveEmit="onRemove"
+          @onCancelEmit="onCancel"
+          @onEditEmit="onEdit"
         />
       </tbody>
       <tbody v-else>
@@ -25,7 +28,21 @@ export default {
   components: {
     TodoListItem
   },
+  data() {
+    return {
+      selectedItem: null,
+    }
+  },
   methods: {
+    editableChange(id) {
+      return this.selectedItem === id;
+    },
+    onEdit(id) {
+      this.selectedItem = id;
+    },
+    onCancel() {
+      this.selectedItem = null;
+    },
     onRemove(id) {
       this.$emit('onRemoveEmit', id);
     }
