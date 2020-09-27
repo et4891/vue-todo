@@ -17,10 +17,10 @@
 </template>
 
 <script>
-import TodoApi from '../api/Todo';
+import TodoApi from './api/Todo';
 
-import TodoInput from '../components/TodoInput';
-import TodoList from '../components/TodoList';
+import TodoInput from './components/TodoInput';
+import TodoList from './components/TodoList';
 
 export default {
   name: 'App',
